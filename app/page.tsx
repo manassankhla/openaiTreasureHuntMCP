@@ -48,11 +48,12 @@ export default function Home() {
       audioRef.current.pause();
     }
     let src = "";
-    if (event === "victory") src = "/victory.mp3";
-    else if (event === "treasure") src = "/treasure.mp3";
-    else if (event === "attack") src = "/attack.mp3";
-    else if (event === "dragon") src = "/dragon.mp3";
-    else if (location === "forest") src = "/forest.mp3";
+    const cdn = "https://cdn.jsdelivr.net/gh/manassankhla/openaiTreasureHuntMCP@main/public";
+    if (event === "victory") src = `${cdn}/victory.mp3`;
+    else if (event === "treasure") src = `${cdn}/treasure.mp3`;
+    else if (event === "attack") src = `${cdn}/attack.mp3`;
+    else if (event === "dragon") src = `${cdn}/dragon.mp3`;
+    else if (location === "forest") src = `${cdn}/forest.mp3`;
     
     if (src) {
       const audio = new Audio(src);
@@ -67,7 +68,8 @@ export default function Home() {
     };
   }, [location, event]);
 
-  const bgImage = location === "cave" ? "/cave.png" : location === "castle" ? "/castle.png" : "/forest.png";
+  const cdn = "https://cdn.jsdelivr.net/gh/manassankhla/openaiTreasureHuntMCP@main/public";
+  const bgImage = location === "cave" ? `${cdn}/cave.png` : location === "castle" ? `${cdn}/castle.png` : `${cdn}/forest.png`;
 
   return (
     <div
@@ -108,22 +110,22 @@ export default function Home() {
         <div className="flex-1 flex items-center justify-center w-full min-h-[200px]">
           {event === "dragon" && (
             <div className="animate-bounce">
-              <Image src="/dragon.png" alt="Dragon" width={300} height={300} className="drop-shadow-[0_0_15px_rgba(255,0,0,0.8)]" />
+              <img src={`${cdn}/dragon.png`} alt="Dragon" width={300} height={300} className="drop-shadow-[0_0_15px_rgba(255,0,0,0.8)]" />
             </div>
           )}
           {event === "attack" && (
             <div className="animate-ping">
-              <Image src="/dragon.png" alt="Dragon Attacking" width={300} height={300} className="drop-shadow-[0_0_25px_rgba(255,50,0,1)] scale-110" />
+              <img src={`${cdn}/dragon.png`} alt="Dragon Attacking" width={300} height={300} className="drop-shadow-[0_0_25px_rgba(255,50,0,1)] scale-110" />
             </div>
           )}
           {event === "treasure" && (
             <div className="animate-pulse">
-              <Image src="/treasure.png" alt="Treasure" width={250} height={250} className="drop-shadow-[0_0_20px_rgba(255,215,0,0.8)]" />
+              <img src={`${cdn}/treasure.png`} alt="Treasure" width={250} height={250} className="drop-shadow-[0_0_20px_rgba(255,215,0,0.8)]" />
             </div>
           )}
           {event === "victory" && (
             <div className="animate-bounce">
-              <Image src="/treasure.png" alt="Victory" width={350} height={350} className="drop-shadow-[0_0_30px_rgba(255,255,0,1)]" />
+              <img src={`${cdn}/treasure.png`} alt="Victory" width={350} height={350} className="drop-shadow-[0_0_30px_rgba(255,255,0,1)]" />
             </div>
           )}
         </div>
