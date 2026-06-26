@@ -20,6 +20,7 @@ export default function Home() {
         location?: Location;
         event?: GameEvent;
         message?: string;
+        options?: string[];
       } 
     };
   }>();
@@ -32,6 +33,13 @@ export default function Home() {
   const location = toolOutput?.result?.structuredContent?.location || "forest";
   const event = toolOutput?.result?.structuredContent?.event || "none";
   const message = toolOutput?.result?.structuredContent?.message || "Welcome to the Treasure Hunt! You stand at the edge of a dark forest. What will you do?";
+  const options = toolOutput?.result?.structuredContent?.options || ["Go to Cave", "Go to Castle"];
+
+  const handleOptionClick = (option: string) => {
+    if (typeof window !== "undefined" && (window as any).openai) {
+      (window as any).openai.chat.sendMessage({ message: option });
+    }
+  };
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -120,10 +128,24 @@ export default function Home() {
           )}
         </div>
 
-        <div className="w-full max-w-3xl bg-black/70 border-2 border-amber-700/50 rounded-xl p-6 backdrop-blur shadow-[0_0_20px_rgba(0,0,0,0.8)] mt-auto mb-4">
+        <div className="w-full max-w-3xl bg-black/70 border-2 border-amber-700/50 rounded-xl p-6 backdrop-blur shadow-[0_0_20px_rgba(0,0,0,0.8)] mt-auto mb-4 flex flex-col gap-6">
           <p className="text-xl md:text-2xl font-serif leading-relaxed text-amber-50 whitespace-pre-wrap text-center">
             {message}
           </p>
+          
+          {options && options.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-4">
+              {options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleOptionClick(option)}
+                  className="bg-amber-900/80 hover:bg-amber-800 text-amber-100 font-bold py-3 px-6 rounded-lg border border-amber-500/50 shadow-[0_0_10px_rgba(217,119,6,0.3)] transition-all transform hover:scale-105 active:scale-95"
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </main>
     </div>

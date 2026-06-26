@@ -81,11 +81,12 @@ const handler = createMcpHandler(async (server) => {
         location: z.string().describe("The current location: 'forest', 'cave', or 'castle'"),
         event: z.string().describe("The current event: 'none', 'dragon', 'attack', 'treasure', or 'victory'"),
         message: z.string().describe("The story text or narrator message to display to the player"),
+        options: z.array(z.string()).describe("A list of 2-4 short action commands the player can click. Example: ['Go to Cave', 'Attack Dragon']").optional(),
       },
       _meta: widgetMeta(contentWidget),
     },
     async (args: any) => {
-      const { location, event, message } = args;
+      const { location, event, message, options } = args;
       return {
         content: [
           {
@@ -97,6 +98,7 @@ const handler = createMcpHandler(async (server) => {
           location,
           event,
           message,
+          options,
           timestamp: new Date().toISOString(),
         },
         _meta: widgetMeta(contentWidget),
