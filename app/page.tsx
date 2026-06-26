@@ -8,6 +8,7 @@ import {
   useDisplayMode,
   useRequestDisplayMode,
   useIsChatGptApp,
+  useSendMessage,
 } from "./hooks";
 
 type Location = "forest" | "cave" | "castle";
@@ -35,10 +36,10 @@ export default function Home() {
   const message = toolOutput?.result?.structuredContent?.message || "Welcome to the Treasure Hunt! You stand at the edge of a dark forest. What will you do?";
   const options = toolOutput?.result?.structuredContent?.options || ["Go to Cave", "Go to Castle"];
 
+  const sendMessage = useSendMessage();
+
   const handleOptionClick = (option: string) => {
-    if (typeof window !== "undefined" && (window as any).openai) {
-      (window as any).openai.chat.sendMessage({ message: option });
-    }
+    sendMessage(option);
   };
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -99,13 +100,7 @@ export default function Home() {
       )}
 
       <main className="z-10 flex flex-col items-center justify-center w-full h-full p-6">
-        {!isChatGptApp && (
-          <div className="absolute top-4 left-4 bg-yellow-900/80 border border-yellow-500 rounded-lg px-4 py-3 max-w-sm backdrop-blur">
-            <p className="text-sm text-yellow-100 font-medium">
-              Not running in ChatGPT. The game requires ChatGPT context to play.
-            </p>
-          </div>
-        )}
+
 
         <div className="flex-1 flex items-center justify-center w-full min-h-[200px]">
           {event === "dragon" && (
